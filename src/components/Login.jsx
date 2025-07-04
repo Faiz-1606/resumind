@@ -3,16 +3,20 @@ import GoogleLogo from "../assets/google-logo.png";
 import { useState } from "react";
 import { auth, googleProvider } from "../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import Dashboard from "../pages/Dashboard";
 
 const Login = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const handleEmailLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("Logged in user:", userCredential.user);
-      onClose();
+      onClose(true);
+      
     } catch (error) {
       console.error("Email Login Error:", error.message);
     }
@@ -22,7 +26,7 @@ const Login = ({ onClose }) => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log("Google signed-in user:", result.user);
-      onClose();
+      onClose(true);
     } catch (error) {
       console.error("Google Sign-In Error:", error.message);
     }

@@ -3,11 +3,13 @@ import UploadBox from "../components/UploadBox";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import { useState } from "react";
+import Dashboard from "./Dashboard";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <div className="bg-black min-h-screen w-full text-white font-Varela Round">
       <Navbar
@@ -23,7 +25,15 @@ const LandingPage = () => {
         </p>
         <UploadBox />
       </main>
-      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      {showLogin && (
+  <Login
+    onClose={(shouldRedirect = false) => {
+      setShowLogin(false);
+      if (shouldRedirect) navigate("/dashboard");
+    }}
+  />
+)}
+
       {showSignup && <Signup onClose={() => setShowSignup(false)} />}
     </div>
   );

@@ -47,6 +47,7 @@ const UploadBox = ({ onJobData }) => {
       });
 
       const data = await response.json();
+      console.log("Upload Response:", data);
       if (response.ok) {
         setUploadSuccess(true);
         alert("Resume uploaded successfully!");

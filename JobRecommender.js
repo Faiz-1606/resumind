@@ -1,47 +1,43 @@
-const jobDataset = [
-  {
-    title: "Frontend Developer",
-    skills: ["React", "JavaScript", "CSS", "HTML"],
-    description: "Build UI components using React.js and maintain responsive design."
-  },
-  {
-    title: "Backend Developer",
-    skills: ["Node.js", "Express", "MongoDB"],
-    description: "Develop RESTful APIs and server-side logic."
-  },
-  {
-    title: "Data Analyst",
-    skills: ["Python", "SQL", "Pandas"],
-    description: "Analyze and visualize data to help decision-making."
-  },
-  {
-    title: "AI/ML Engineer",
-    skills: ["Python", "TensorFlow", "PyTorch"],
-    description: "Build machine learning models and optimize performance."
-  },
-];
+import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 
-export  function recommendJobs(parsedData) {
-  if (!parsedData || !parsedData.skills) return [];
+export async function recommendJobs(parsedData) {
+  if (!parsedData || !parsedData.skills || !Array.isArray(parsedData.skills)) return [];
 
-  const resumeSkills = parsedData.skills.map(skill => skill.toLowerCase());
-  const recommendations = [];
+  const query =
+    parsedData.domain ||
+    (parsedData.roles && parsedData.roles[0]) ||
+    (parsedData.skills && parsedData.skills.slice(0, 5).join(" ")) ||
+    "developer";
 
-  for (const job of jobDataset) {
-    const matchCount = job.skills.filter(skill =>
-      resumeSkills.includes(skill.toLowerCase())
-    ).length;
+  console.log("Querying JSearch with:", query);
 
-    if (matchCount > 0) {
-      recommendations.push({
-        title: job.title,
-        description: job.description,
-        matchScore: matchCount / job.skills.length
-      });
-    }
+  try {
+    const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
+      params: {
+        query,
+        page: "1",
+        num_pages: "1"
+      },
+      headers: {
+        "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
+        "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
+      }
+    });
+
+    const jobs = response.data.data;
+    console.log("JSearch results:", jobs.length);
+
+    return jobs.map((job) => ({
+      title: job.job_title,
+      company: job.employer_name,
+      description: job.job_description,
+      location: job.job_city,
+      url: job.job_apply_link
+    }));
+  } catch (err) {
+    console.error("JSearch API Error:", err.response?.data || err.message);
+    return [];
   }
-
-  return recommendations.sort((a, b) => b.matchScore - a.matchScore);
 }
-
-

@@ -64,13 +64,14 @@ app.post("/upload", upload.single("resume"), async (req, res) => {
     console.error(" LLaMA Parsing Error:", llamaErr);
     return res.status(500).json({ error: "Failed to parse resume with LLaMA" });
   }
-     const jobs = recommendJobs(llamaData);
+     const jobMatches = await recommendJobs(llamaData);
+    console.log("Job Matches:", jobMatches); 
   
   return res.status(200).json({
     message: "Upload and parse successful",
     url: publicUrl,
     parsed: llamaData,
-    jobs,
+    jobs:jobMatches,
   });
 });
 

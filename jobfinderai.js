@@ -7,12 +7,13 @@ From the following resume text, extract:
 1. A list of technical skills.
 2. Job roles or titles.
 3. A short 1-line career summary.
-
-Return the result as a JSON object:
+4. Based on the skills, infer a job domain like "Web Development", "Software Development", "AI/ML", "Data Analytics", "DevOps", etc.
+ Return the result as a JSON object:
 {
   "skills": [],
   "roles": [],
-  "summary": ""
+  "summary": "",
+  "domain": ""
 }
 Only return a valid JSON object without any explanation or extra text.
 Resume:

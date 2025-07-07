@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import Button from "./Button";
 
-const UploadBox = () => {
+const UploadBox = ({ onJobData }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(null);
-  const fileInputRef = useRef(null); // ✅ Ref to file input
+  const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -50,6 +50,11 @@ const UploadBox = () => {
       if (response.ok) {
         setUploadSuccess(true);
         alert("Resume uploaded successfully!");
+
+        
+        if (onJobData && data.jobs) {
+          onJobData(data.jobs);
+        }
       } else {
         setUploadSuccess(false);
         alert("Upload failed.");
@@ -70,7 +75,7 @@ const UploadBox = () => {
   };
 
   const triggerFilePicker = () => {
-    fileInputRef.current.click(); // ✅ manually open picker
+    fileInputRef.current.click();
   };
 
   return (
@@ -81,7 +86,6 @@ const UploadBox = () => {
     >
       <p className="mb-4">Drag & drop your resume here, or click below to select a file.</p>
 
-      {/* ✅ Hidden file input */}
       <input
         type="file"
         accept=".pdf,.doc,.docx"
@@ -90,7 +94,6 @@ const UploadBox = () => {
         className="hidden"
       />
 
-      {/* ✅ Button that opens file picker */}
       <Button onClick={triggerFilePicker}>Choose File</Button>
 
       {selectedFile && (
@@ -106,10 +109,10 @@ const UploadBox = () => {
       )}
 
       {uploadSuccess === true && (
-        <p className="mt-3 text-green-400"> Upload successful!</p>
+        <p className="mt-3 text-green-400">Upload successful!</p>
       )}
       {uploadSuccess === false && (
-        <p className="mt-3 text-red-400"> Upload failed.</p>
+        <p className="mt-3 text-red-400">Upload failed.</p>
       )}
     </div>
   );

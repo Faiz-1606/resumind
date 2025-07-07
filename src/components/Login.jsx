@@ -44,7 +44,6 @@ const Login = ({ onClose }) => {
 
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
-        {/* Email Input */}
         <input
           type="email"
           placeholder="Email"
@@ -53,7 +52,6 @@ const Login = ({ onClose }) => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* Password Input */}
         <input
           type="password"
           placeholder="Password"
@@ -62,22 +60,18 @@ const Login = ({ onClose }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* Login Button */}
         <button
           onClick={handleEmailLogin}
           className="w-full bg-yellow-300 hover:bg-yellow-500 text-black py-2 px-4  font-medium mb-6 rounded-full"
         >
           Login
         </button>
-
-        {/* Separator */}
         <div className="flex items-center my-4">
           <hr className="flex-grow border-t border-gray-300" />
           <span className="mx-4 text-gray-500 text-sm">or login with</span>
           <hr className="flex-grow border-t border-gray-300" />
         </div>
 
-        {/* Google Button */}
         <button
           onClick={handleGoogleSignIn}
           className="min-w-full bg-gray-300 hover:bg-gray-500 text-black py-2 px-4 rounded-full   place-content-center flex-col font-medium"

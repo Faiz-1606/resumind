@@ -8,12 +8,14 @@ From the following resume text, extract:
 2. Job roles or titles.
 3. A short 1-line career summary.
 4. Based on the skills, infer a job domain like "Web Development", "Software Development", "AI/ML", "Data Analytics", "DevOps", etc.
+5. Extract the candidate's location, city, or preferred work location from the resume
  Return the result as a JSON object:
 {
   "skills": [],
   "roles": [],
   "summary": "",
-  "domain": ""
+  "domain": "",
+  "location": ""
 }
 Only return a valid JSON object without any explanation or extra text.
 Resume:

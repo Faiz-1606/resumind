@@ -4,7 +4,7 @@ dotenv.config();
 
 export async function recommendJobs(parsedData) {
   if (!parsedData || !parsedData.skills || !Array.isArray(parsedData.skills)) return [];
-
+  const location = parsedData.location || "";
   const query =
     parsedData.domain ||
     (parsedData.roles && parsedData.roles[0]) ||
@@ -12,7 +12,9 @@ export async function recommendJobs(parsedData) {
     "developer";
 
   console.log("Querying JSearch with:", query);
-
+   if (location) {
+    params.query = `${query} in ${location}`; 
+  }
   try {
     const response = await axios.get("https://jsearch.p.rapidapi.com/search", {
       params: {

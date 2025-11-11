@@ -10,7 +10,9 @@ import { recommendJobs } from "./JobRecommender.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['https://your-vercel-app.vercel.app', 'http://localhost:5173']
+}));
 app.use(express.json());
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);

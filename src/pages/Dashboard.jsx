@@ -28,7 +28,7 @@ const Dashboard = () => {
         </h1>
 
         <p className="text-gray-300 mb-8">
-          Upload a resume to get fresh job recommendations powered by AI.
+          Upload a resume to get job recommendation by AI.
         </p>
 
         <UploadBox onJobData={handleJobResults} />
